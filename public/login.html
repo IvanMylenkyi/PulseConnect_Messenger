@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Авторизация</title>
+<style>
+  /* Пример стилей для серой подсказки */
+  input::placeholder {
+    color: gray;
+  }
+</style>
+</head>
+<body align="center">
+  <h2>Форма Регистрации</h2>
+  <form action="/api/users/login" method="POST">
+    <div>
+      <label for="Email">Почта:</label>
+      <input type="email" id="Email" name="Email" placeholder="Введите почту" required>
+    </div>
+    <div>
+      <label for="Password">Пароль:</label>
+      <input type="password" id="Password" name="Password" placeholder="Введите пароль" required>
+    </div>
+    <button type="submit">Авторизоваться</button>
+  </form>
+</body>
+</html>

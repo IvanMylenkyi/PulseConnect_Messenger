@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body 
+        h1= contact_action
+
+        form#updateContactForm(method="POST", action=contact_action + "/upd")
+          input(type="hidden", name="id", value=contact_id)
+          label(for="contactName") Contact Name:
+          input(type="text", name="ContactName", id="ContactName", value="John Doe")
+          button(type="submit") Обновить контакт
+
+        form#deleteContactForm(action=contact_action + "/del", method="POST")
+            input(type="hidden" name="_method" value="delete")
+            button(type="submit") Удалить контакт
+
+        
+
+
