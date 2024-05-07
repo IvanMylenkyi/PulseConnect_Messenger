@@ -17,11 +17,6 @@ const sequelize = new Sequelize({
   }
 })();
 
-// // // Определение моделей и их связей
-// // const User = sequelize.define('User', {
-// //     // w
-// // });
-// // 
 
 console.log(User === sequelize.models.User);
 // // const Conversation = sequelize.define('Conversation', {
