@@ -1,6 +1,8 @@
 const { constants } = require("../constants");
+//Error handler
 const errorHandler = (err,req,res,next)=>{
     const statusCode=res.statusCode ? res.statusCode:500;
+    //describe errors & status codes
     switch (statusCode) {
         case constants.VALIDATION_ERROR:
             res.json({title:"Validation failed",message: err.message, stackTrace: err.stack});
@@ -17,9 +19,7 @@ const errorHandler = (err,req,res,next)=>{
             console.log('No Error, All fine');
             break;
     }
-    
-   
 
 };
 
-module.exports=errorHandler
+module.exports=errorHandler //export handler
