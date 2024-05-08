@@ -27,12 +27,16 @@ const getContacts= asyncHadler(async (req,res)=>{
 
 const getContact=asyncHadler(async(req,res)=>{
     try {
-        const contact = await Contact.findByPk(req.params.id);
+        // select a contact from id
+        const contact = await Contact.findByPk(req.params.id); 
+        // if contact not found
         if (!contact) {
             return res.status(404).json({ error: 'Contact not found' });
         }
-        let contact_action = `{ContactID:${contact.ContactID}}`;
-        res.render('current_contact', { contact_action: contact_action, contact_id:contact.ContactID })
+
+        let contact_action = `{ContactID:${contact.ContactID}}`; //variable for client side
+        res.render('current_contact', { contact_action: contact_action, contact_id:contact.ContactID }) // display the page
+        // In case of error, send the status of an error and an error message
     } catch (error) {
         console.error('Error fetching contact:', error);
         res.status(500).json({ error: 'An error occurred while fetching contact' });
@@ -51,13 +55,14 @@ const addContact=asyncHadler(async(req,res)=>{
         if (!req.user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        // Creation of contact with a reference to the current user
-        const {ContactUsername, ContactName, UserID} = req.body;
+        
+        const {ContactUsername, ContactName, UserID} = req.body; //request body
+        // chek mandatory fields
         if(!ContactUsername){
             res.status(400);
             throw new Error("Mandatory fields are empty");
         }
-    
+        // Creation of contact with a reference to the current user
         const user = await User.findOne({ where: { username: ContactUsername } });
         if (user) {
             // We get contact data
@@ -70,16 +75,19 @@ const addContact=asyncHadler(async(req,res)=>{
             if (req.body.ContactName) {
                 contactData.ContactName = req.body.ContactName;
             }
-
+            
+            //create contact
             const contact = await Contact.create(contactData);
-            res.status(201).json(contact);
+
+            res.status(201).json(contact); //display the contact json
         
             }
+            //if user does not exist
         else{
             res.status(400).json({error:'User does not exist'})
         }
 
-        
+       // In case of error, send the status of an error and an error message 
     } catch (error) {
         console.error('Error adding contact:', error);
         res.status(500).json({ error: 'An error occurred while adding contact/contact already added' });
@@ -112,7 +120,8 @@ const updateContact=asyncHadler(async(req,res)=>{
         // Contact update
           
         await contact.update({ContactName});
-        res.status(200).json(contact);
+        res.status(200).json(contact); // display contact json
+        // In case of error, send the status of an error and an error message
     } catch (error) {
         console.error('Error updating contact:', error);
         res.status(500).json({ error: 'An error occurred while updating contact' });
@@ -143,7 +152,8 @@ const deleteContact=asyncHadler(async(req,res)=>{
         
         // Contact removal
         await contact.destroy();
-        res.status(200).json({ message: 'Contact deleted successfully' });
+        res.status(200).json({ message: 'Contact deleted successfully' }); //display message about delete contact
+        // In case of error, send the status of an error and an error message
     } catch (error) {
         console.error('Error deleting contact:', error);
         res.status(500).json({ error: 'An error occurred while deleting contact' });
@@ -151,4 +161,4 @@ const deleteContact=asyncHadler(async(req,res)=>{
 });
 
 
-module.exports={getContact, addContact, getContacts, updateContact, deleteContact};
+module.exports={getContact, addContact, getContacts, updateContact, deleteContact}; //export methods
