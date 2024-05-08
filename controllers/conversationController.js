@@ -78,40 +78,7 @@ const sendMessage=asyncHadler(async(req,res)=>{
     }
 });
 
-//@desc update conversation
-//@route put /api/contacts/:id
-//@acces private
 
-const updateContact=asyncHadler(async(req,res)=>{
-    try {
-        const {ContactName} = req.body
-        // Проверка аутентификации пользователя
-        if (!req.user) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        
-        // Поиск контакта для обновления
-        const contact = await Contact.findByPk(req.params.id);
-        if (!contact) {
-            return res.status(404).json({ error: 'Contact not found' });
-        }
-        
-        // Проверка, что контакт принадлежит текущему пользователю
-        if (contact.UserId !== req.user.id) {
-            return res.status(403).json({ error: 'Forbidden' });
-        }
-        
-        // Обновление контакта
-          
-        
-        
-        await contact.update({ContactName});
-        res.status(200).json(contact);
-    } catch (error) {
-        console.error('Error updating contact:', error);
-        res.status(500).json({ error: 'An error occurred while updating contact' });
-    }
-});
 
 
 
