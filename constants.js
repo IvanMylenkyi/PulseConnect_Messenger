@@ -1,3 +1,5 @@
+//export object with errors: status codes
+
 exports.constants={
     VALIDATION_ERROR:400,
     UNAUTHORIZED: 401,
