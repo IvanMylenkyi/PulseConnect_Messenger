@@ -3,20 +3,20 @@ const Contact = require("../models/contactsModel");
 const User = require("../models/usersModel");
 
 //@desc get all contacts
-//route
+//route get /api/contacts/
 //@acces private
 
 const getContacts= asyncHadler(async (req,res)=>{
     try {
-        // Получаем список контактов из базы данных
+        // We get a list of contacts from the database
         const contacts = await Contact.findAll({ where: { UserID: req.user.UserID } });
 
-        // Отправляем список контактов в качестве ответа
+        // We send a list of contacts as an answer
         res.status(200).json(contacts);
     } catch (error) {
-        // В случае ошибки отправляем статус ошибки и сообщение об ошибке
-        console.error('Ошибка при получении списка контактов:', error);
-        res.status(500).json({ error: 'Произошла ошибка при получении списка контактов' });
+        // In case of error, send the status of an error and an error message
+        console.error('Error when receiving a list of contacts:', error);
+        res.status(500).json({ error: 'An error occurred when receiving a list of contacts' });
     }});
 
 
@@ -32,7 +32,7 @@ const getContact=asyncHadler(async(req,res)=>{
             return res.status(404).json({ error: 'Contact not found' });
         }
         let contact_action = `{ContactID:${contact.ContactID}}`;
-        res.render('current_contact', { contact: req.contact, contact_action: contact_action, contact_id:contact.ContactID })
+        res.render('current_contact', { contact_action: contact_action, contact_id:contact.ContactID })
     } catch (error) {
         console.error('Error fetching contact:', error);
         res.status(500).json({ error: 'An error occurred while fetching contact' });
@@ -47,46 +47,42 @@ const getContact=asyncHadler(async(req,res)=>{
 
 const addContact=asyncHadler(async(req,res)=>{
     try {
-        // Проверка аутентификации пользователя
+        // Checking user authentication
         if (!req.user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        // Создание контакта с привязкой к текущему пользователю
-
+        // Creation of contact with a reference to the current user
         const {ContactUsername, ContactName, UserID} = req.body;
-        
-
-
         if(!ContactUsername){
             res.status(400);
             throw new Error("Mandatory fields are empty");
         }
-          
+    
         const user = await User.findOne({ where: { username: ContactUsername } });
         if (user) {
-            // Получаем данные о контакте
+            // We get contact data
             const contactData = {
-                UserID: req.user.UserID, // UserID cоздателя контакта
-                ContactID: user.UserID, // UserID контакта
+                UserID: req.user.UserID, // UserID creator of contact
+                ContactID: user.UserID, // UserID contact
             };
         
-            // Добавляем необязательные поля, если они присутствуют в запросе
+            // Add optional fields if they are present in the request
             if (req.body.ContactName) {
                 contactData.ContactName = req.body.ContactName;
             }
-        
-// убрать повторение контактов
 
             const contact = await Contact.create(contactData);
             res.status(201).json(contact);
         
             }
-        
+        else{
+            res.status(400).json({error:'User does not exist'})
+        }
 
         
     } catch (error) {
         console.error('Error adding contact:', error);
-        res.status(500).json({ error: 'An error occurred while adding contact' });
+        res.status(500).json({ error: 'An error occurred while adding contact/contact already added' });
     }
 });
 
@@ -97,26 +93,24 @@ const addContact=asyncHadler(async(req,res)=>{
 const updateContact=asyncHadler(async(req,res)=>{
     try {
         const {ContactName} = req.body
-        // Проверка аутентификации пользователя
+        // Checking user authentication
         if (!req.user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
         
-        // Поиск контакта для обновления
+        // Contact search for updating
         const contact = await Contact.findByPk(req.params.id);
         if (!contact) {
             return res.status(404).json({ error: 'Contact not found' });
         }
         
-        // Проверка, что контакт принадлежит текущему пользователю
+        // Check that the contact belongs to the current user
         if (contact.UserId !== req.user.id) {
             return res.status(403).json({ error: 'Forbidden' });
         }
         
-        // Обновление контакта
+        // Contact update
           
-        
-        
         await contact.update({ContactName});
         res.status(200).json(contact);
     } catch (error) {
@@ -131,23 +125,23 @@ const updateContact=asyncHadler(async(req,res)=>{
 
 const deleteContact=asyncHadler(async(req,res)=>{
     try {
-        // Проверка аутентификации пользователя
+        // Checking user authentication
         if (!req.user) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
         
-        // Поиск контакта для удаления
+        // Contact search for removal
         const contact = await Contact.findByPk(req.params.id);
         if (!contact) {
             return res.status(404).json({ error: 'Contact not found' });
         }
         
-        // Проверка, что контакт принадлежит текущему пользователю
+        // Check that the contact belongs to the current user
         if (contact.UserId !== req.user.id) {
             return res.status(403).json({ error: 'Forbidden' });
         }
         
-        // Удаление контакта
+        // Contact removal
         await contact.destroy();
         res.status(200).json({ message: 'Contact deleted successfully' });
     } catch (error) {
@@ -155,7 +149,6 @@ const deleteContact=asyncHadler(async(req,res)=>{
         res.status(500).json({ error: 'An error occurred while deleting contact' });
     }
 });
-
 
 
 module.exports={getContact, addContact, getContacts, updateContact, deleteContact};
