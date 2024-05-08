@@ -35,7 +35,7 @@ const getContact=asyncHadler(async(req,res)=>{
         }
 
         let contact_action = `{ContactID:${contact.ContactID}}`; //variable for client side
-        res.render('current_contact', { contact_action: contact_action, contact_id:contact.ContactID }) // display the page
+        res.render('current_contact', { contact_action: contact_action, contact_id:req.params.id }) // display the page
         // In case of error, send the status of an error and an error message
     } catch (error) {
         console.error('Error fetching contact:', error);
@@ -74,6 +74,9 @@ const addContact=asyncHadler(async(req,res)=>{
             // Add optional fields if they are present in the request
             if (req.body.ContactName) {
                 contactData.ContactName = req.body.ContactName;
+            }
+            else{
+                contactData.ContactName=ContactUsername;
             }
             
             //create contact

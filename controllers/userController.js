@@ -111,6 +111,7 @@ const loginUser = asyncHandler(async (req,res)=>{
 const currentUser = asyncHandler(async (req,res)=>{
     //display the user page
     const contacts = await Contact.findAll({ where: { UserID: req.user.UserID } });
+    console.log(contacts);
     res.render('current_user', { user: req.user, contacts:contacts });
 });
 

@@ -12,9 +12,8 @@ html
       if contacts.length
     each el in contacts
       .alert.alert-dark.mt-6
-        
         h3= el.ContactName
-        p= el.ContactID
+
         a.btn.btn-outline-primary(href=`/api/contacts/${el.id}`) More
     else
       h6 You don't have any contacts!

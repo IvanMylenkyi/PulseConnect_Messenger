@@ -6,28 +6,33 @@ const {User} = require('../models/usersModel.js');
 
 
 //  Contacts model
+//define contact model
 const Contact = sequelize.define('Contact', {
+  //User id
   UserID: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
-      key: 'UserID'
+      model: User, //refer model User
+      key: 'UserID'//refer on key
     }
   },
+  //contact id
   ContactID: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
-      key: 'UserID'
+      model: User, //refer model User
+      key: 'UserID' //refer on key
     }
   },
+  //Contact name (optional)
   ContactName: {
     type: DataTypes.TEXT,
     allowNull: true
   },
 
+  //id
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -35,20 +40,5 @@ const Contact = sequelize.define('Contact', {
   },
 });
 
-// Установка связи между таблицами Users и Contacts
 
-// сreate foreign keys for table Contacts
-(async () => {
-  try {
-    await sequelize.query('PRAGMA foreign_keys=ON'); // Включаем поддержку внешних ключей
-    await sequelize.query('PRAGMA foreign_keys_list'); // Проверяем список внешних ключей
-    await sequelize.query('PRAGMA foreign_key_check'); // Проверяем целостность внешних ключей
-    await sequelize.query('PRAGMA foreign_key_list(Contacts)'); // Показываем список внешних ключей для таблицы Contacts
-    console.log('Foreign keys for Contacts created successfully.');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-})();
-
-
-module.exports = Contact;
+module.exports = Contact; //export model
