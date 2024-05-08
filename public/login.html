@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Авторизация</title>
+<title>Login</title>
 <style>
   /* Пример стилей для серой подсказки */
   input::placeholder {
@@ -12,17 +12,17 @@
 </style>
 </head>
 <body align="center">
-  <h2>Форма Регистрации</h2>
+  <h2>Login</h2>
   <form action="/api/users/login" method="POST">
     <div>
-      <label for="Email">Почта:</label>
-      <input type="email" id="Email" name="Email" placeholder="Введите почту" required>
+      <label for="Email">Email:</label>
+      <input type="email" id="Email" name="Email" placeholder="Enter email" required>
     </div>
     <div>
-      <label for="Password">Пароль:</label>
-      <input type="password" id="Password" name="Password" placeholder="Введите пароль" required>
+      <label for="Password">Password:</label>
+      <input type="password" id="Password" name="Password" placeholder="Enter password" required>
     </div>
-    <button type="submit">Авторизоваться</button>
+    <button type="submit">Login</button>
   </form>
 </body>
 </html>

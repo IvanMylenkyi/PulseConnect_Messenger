@@ -34,7 +34,7 @@ const getContact=asyncHadler(async(req,res)=>{
             return res.status(404).json({ error: 'Contact not found' });
         }
 
-        let contact_action = `{ContactID:${contact.ContactID}}`; //variable for client side
+        let contact_action = contact.ContactName; //variable for client side
         res.render('current_contact', { contact_action: contact_action, contact_id:req.params.id }) // display the page
         // In case of error, send the status of an error and an error message
     } catch (error) {
@@ -57,7 +57,7 @@ const addContact=asyncHadler(async(req,res)=>{
         }
         
         const {ContactUsername, ContactName, UserID} = req.body; //request body
-        // chek mandatory fields
+        // check mandatory fields
         if(!ContactUsername){
             res.status(400);
             throw new Error("Mandatory fields are empty");

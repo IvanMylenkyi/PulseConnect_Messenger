@@ -3,19 +3,23 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Contact profile
     body 
         h1= contact_action
 
         form#updateContactForm(method="POST", action="/api/contacts/" + contact_id +  "/upd")
           input(type="hidden", name="id", value=contact_id)
           label(for="contactName") Contact Name:
-          input(type="text", name="ContactName", id="ContactName", value="John Doe")
-          button(type="submit") Обновить контакт
+          input(type="text", name="ContactName", id="ContactName", value="", placeholder="Enter contact name")
+          button(type="submit") Update contact
 
         form#deleteContactForm(action="/api/contacts/" + contact_id + "/del", method="POST")
             input(type="hidden" name="_method" value="delete")
-            button(type="submit") Удалить контакт
+            button(type="submit") Remove contact
+
+        form#conversationContactForm(action="/api/contacts/" + contact_id + "/conversations", method="GET")
+            input(type="hidden" name="_method" value="conversation")
+            button(type="submit") Send message
 
         
 

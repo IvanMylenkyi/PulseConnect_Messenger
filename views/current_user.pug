@@ -19,7 +19,7 @@ html
       h6 You don't have any contacts!
 
 
-    h1 Добавить контакт
+    h1 Add contact
     form(action="/api/contacts" method="POST")
       label(for="ContactUsername") Contact Username:
       input(type="text", name="ContactUsername", id="ContactUsername", required)
@@ -27,4 +27,4 @@ html
       label(for="ContactName") Contact Name (Optional):
       input(type="text", name="ContactName", id="ContactName")
       br
-      button(type="submit") Добавить
+      button(type="submit") Add

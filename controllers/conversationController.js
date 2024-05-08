@@ -12,11 +12,6 @@ const getMessages= asyncHadler(async (req,res)=>{
     try {
         // We get a contact from db
         const contact = await Contact.findByPk(req.params.id);
-        // select sent messages
-        const sent_messages = await Conversation.findAll({ where: { SenderID: req.user.UserID, RecipientID: contact.ContactID } });
-        // select received messages
-        const received_messages = await Conversation.findAll({ where: { SenderID: contact.ContactID, RecipientID: req.user.UserID } });
-
         //sort of messages
         const messages = await Conversation.findAll({
             where: {
@@ -27,11 +22,9 @@ const getMessages= asyncHadler(async (req,res)=>{
             },
             order: [['createdAt', 'DESC'], ['createdAt', 'DESC']] // Sort by the date of departure and receipt
           });
-          
-        
-        let contact_action = `/api/contacts/${contact.ContactID}`;  // variable for client side
-        //displat the conversation page
-        res.render('conversations', {sent_messages: sent_messages, received_messages:received_messages,messages:messages,senderId:req.user.UserID,contact_action: contact_action, contact_id: contact.ContactID })
+        //display the conversation page
+        const name= await User.findOne({where:{username:req.user.UserID}})
+        res.render('conversations', {messages:messages, ContactName:name})
         // In case of error, send the status of an error and an error message
 
     } catch (error) {

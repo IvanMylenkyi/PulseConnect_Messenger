@@ -11,21 +11,9 @@ html
         label(for="message") Message:
         textarea(id="message" name="MessageText" required)
         button(type="submit") Send
-
     if messages.length
     each el in messages
-      p= messages
       .alert.alert-warning.mt-2
-        h2= el.SenderID
-        p= el.MessageText 
 
-
-
-    //- if received_messages.length
-    //- each el in received_messages
-    //-   p=received_messages
-    //-   .alert.alert-danger.mt-2
-        
-    //-     p= el.ReciepentID
-    //-     p= el.MessageText 
-    
+        h2= el.MessageText
+        p= el.SenderID

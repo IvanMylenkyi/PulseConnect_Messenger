@@ -22,7 +22,7 @@ db.serialize(function() {
         SenderID INTEGER NOT NULL,
         RecipientID INTEGER NOT NULL,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         MessageText TEXT,
         FOREIGN KEY (SenderID) REFERENCES Users(UserID),
         FOREIGN KEY (RecipientID) REFERENCES Users(UserID)
@@ -35,6 +35,7 @@ db.serialize(function() {
         ContactName TEXT,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(UserID, ContactID),
         FOREIGN KEY (UserID) REFERENCES Users(UserID),
         FOREIGN KEY (ContactID) REFERENCES Users(UserID)
     )`);

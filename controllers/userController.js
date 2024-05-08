@@ -55,6 +55,8 @@ const registerUser = asyncHandler( async (req,res)=>{
         );
         console.log(accessToken);
         module.exports=accessToken; // export access token
+        //display the user page
+        res.redirect('/api/users/current')
     }   
     //if invalid user data
     else{
@@ -95,7 +97,7 @@ const loginUser = asyncHandler(async (req,res)=>{
         );
         console.log(accessToken);
         module.exports=accessToken; // export access token
-        res.send(200,accessToken)
+        res.redirect('/api/users/current')
     // if user data invalid
     }
     else{
@@ -111,7 +113,6 @@ const loginUser = asyncHandler(async (req,res)=>{
 const currentUser = asyncHandler(async (req,res)=>{
     //display the user page
     const contacts = await Contact.findAll({ where: { UserID: req.user.UserID } });
-    console.log(contacts);
     res.render('current_user', { user: req.user, contacts:contacts });
 });
 
