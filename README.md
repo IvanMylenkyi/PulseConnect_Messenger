@@ -1,4 +1,4 @@
-## Messenger App README
+## PulseConnect README
 PulseConnect is a web application for exchanging messages between users. The application is built on Node.js using the Express.js framework. Local SQLite3 database is used to store data and Sequalize ORM helps to interact with it. JWT (JSON Web Tokens) is used for user authentication.
 ### Features:
 - User Registration and Authentication using JWT
